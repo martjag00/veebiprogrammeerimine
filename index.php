@@ -35,7 +35,7 @@
 	<p>Selle lehe <a href="http://www.tlu.ee" target="_blank">TLÜ</a> tegin kiiruga tunnis õppimise jaoks ning ei oma mingit väärtusliku sisu.</p>
 	<p>Selle teksti kirjutasin kodus läpakas, sest tahtsin proovida kas saan kõike teha ka kodus.</p>
 	<?php
-	 echo "<p>Tänane kuupäev on: " .$dateToday .".</p>";
+	 echo "<p>Tänane kuupäev on: " .$dateToday .".</p> /n";
 	 echo "<p>Lehe avamise hetkel oli kell" .date("H:i:s") .", käes oli ".$partofDay .".</p>";
 	?>
 	<img src="https://www.pexels.com/photo/clown-fish-swimming-128756/.jpg" alt="">
