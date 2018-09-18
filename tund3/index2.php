@@ -3,6 +3,12 @@
 	$firstName="Martin";
 	$lastName="Jagodin";
 	$dateToday= date("d.m.Y");
+	$weekdayToday=date("N");
+	$weekdayNamesET=["esmaspäev","teisipäev","kolmapäev","neljapäev","reede","laupäev","pühapäev"];
+	//echo $weekdayNamesET;
+	//var_dump ($weekdayNamesET);
+	//echo $weekdayNamesET[1];
+	//echo $weekdayToday;
 	$hourNow= date("G");
 	$partofDay= "";
 	if($hourNow<8){
@@ -14,6 +20,13 @@
 	if($hourNow>16){
 			$partofDay="loodetavasti vaba aeg";
 	}
+	//juhusliku pildi valimine
+	$picURL="http://www.cs.tlu.ee/~rinde/media/fotod/TLU_600x400/tlu_";
+	$picEXT=".jpg";
+	$picNUM=mt_rand(2,43);
+	//echo $picNUM;
+	//rand, mt_rand(parem) , randomi jaoks
+	$picFILE= $picURL .$picNUM .$picEXT;
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,11 +48,12 @@
 	</h1>
 	<p>Selle lehe <a href="http://www.tlu.ee" target="_blank">TLÜ</a> tegin kiiruga tunnis õppimise jaoks ning ei oma mingit väärtusliku sisu.</p>
 	<p>Selle teksti kirjutasin kodus läpakas, sest tahtsin proovida kas saan kõike teha ka kodus.</p>
+	<p>Teised lehed: <a href="photo.php">photo</a>, <a href="page.php">page</a>.</p>
 	<?php
-	 echo "<p>Tänane kuupäev on: " .$dateToday .".</p> \n";
+	 echo "<p>Täna on ". $weekdayNamesET[$weekdayToday -1] .", " .$dateToday .".</p> \n";
 	 echo "<p>Lehe avamise hetkel oli kell " .date("H:i:s") .", käes oli ".$partofDay .".</p>";
 	?>
-	<img src="https://thoth3126.com.br/wp-content/uploads/2015/09/wtc-newyork-terrorismo-falso-ataque.jpg" alt="">
-	<p>Minu sõber teeb ka <a href="../../~danilat" target="_blank">lingi</a>
+	<img src="<?php echo $picFILE; ?>" alt="">
+	<p>Minu sõber teeb ka <a href="../../../../~danilat" target="_blank">lingi</a>
   </body>
 </html>	
