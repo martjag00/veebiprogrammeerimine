@@ -1,11 +1,13 @@
 <?php
 	$firstName="Martin";
 	$lastName="Jagodin";
-	$dateToday= date("d.m.Y");
+	$dayToday= date("d");
+	$yearToday=date("Y");
+	$monthToday=date("m");
 	$weekdayToday=date("N");
 	$weekdayNamesET=["esmaspäev","teisipäev","kolmapäev","neljapäev","reede","laupäev","pühapäev"];
 	$monthNamesET=["jaanuar","veebruar","märts","aprill","mai","juuni","juuli","august","september","oktoober","november","detsember"];
-	echo $monthNamesET[0];
+	//echo $monthNamesET[0];
 	$hourNow= date("G");
 	$partofDay= "";
 	if($hourNow<8){
@@ -46,7 +48,8 @@
 	<p>Selle teksti kirjutasin kodus läpakas, sest tahtsin proovida kas saan kõike teha ka kodus.</p>
 	<p>Teised lehed: <a href="photo.php">photo</a>, <a href="page.php">page</a>.</p>
 	<?php
-	 echo "<p>Täna on ". $weekdayNamesET[$weekdayToday -1] .", " .$dateToday .".</p> \n";
+	 //echo "<p>Täna on ". $weekdayNamesET[$weekdayToday -1] .", " .$dateToday .".</p> \n";
+	 echo "<p>Täna on ".$weekdayNamesET[$weekdayToday -1].", ".$dayToday.". ".$monthNamesET[$monthToday-1]." ".$yearToday.".</p>";
 	 echo "<p>Lehe avamise hetkel oli kell " .date("H:i:s") .", käes oli ".$partofDay .".</p>";
 	?>
 	<img src="<?php echo $picFILE; ?>" alt="">
