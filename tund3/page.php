@@ -1,4 +1,4 @@
-<?php
+	<?php
 	$firstName="Tundmatu";
 	$lastName="Kodanik";
 	
@@ -10,6 +10,8 @@
 	if (isset($_POST["lastname"])){
 		$lastName=$_POST["lastname"];
 	}
+	$monthToday = date("m");
+    $monthNamesET = ["jaanuar","veebruar","märts","aprill","mai","juuni","juuli","august","september","oktoober","november","detsember"];
 	?>
 <!DOCTYPE html>
 <html>
@@ -39,18 +41,20 @@
 	<input type="text" name="lastname">
 	<label>Sünniaasta: </label>
 	<input type="number" min="1914" max="2000" value="1999" name="birthyear">
-	<input type="submit" name="submitUserData" value="Saada andmed">
-	</form>
-	<hr>
+	<label>Sünnikuu: </label>
+	<select name="birthmonth">
 	<?php
-	if (isset($_POST["birthyear"])){
-	 echo "<p>Olete elanud järgnevatel aastatel:</p> \n";
-	 echo "<ul>";
-		for ($i= $_POST["birthyear"]; $i <=date("Y"); $i++){
-			echo"<li>" .$i. "</li> \n";
+	  for ($i = 1; $i <= 12; $i++) {
+	  if($i == $monthToday){
+      echo '<option value="' . $i . '" selected>' . $monthNamesET[$i - 1] . '</option>';
+		}    
+      else{
+      echo '<option value="' . $i . '">' . $monthNamesET[$i - 1] . '</option>';
 		}
-	echo "</ul> \n";
 	}
-	?>	
+	?>
+	<input type="submit" name="submitUserData" value="Saada andmed">
+	<hr>
+</form>	
 </body>
 </html>	
