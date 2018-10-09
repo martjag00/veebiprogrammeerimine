@@ -1,23 +1,22 @@
 	<?php
 	//lisan teise php faili
 	require("functions.php");	
-	//püüan POST andmed kinni
-		//var_dump($_POST);
-	if (isset($_POST["submitCat"])){
-		if (!empty($_POST["catName"]) and !empty($_POST["catColor"])){
-			$catName = test_input($_POST["catName"]);
-			$catColor = test_input($_POST["catColor"]);
-			$catTail = test_input($_POST["catTail"]);
-			$combined = createAndFetchCats($catName, $catColor, $catTail);
-		} else {
-			$combined = createAndFetchCats(null, null, null);
-		}
-	}
 	$catName=null;
 	$catColor=null;
 	$catTail=null;
+	$notice=null;
 	
-	
+	if (isset($_POST["submitCatData"])){
+	 if (!empty($_POST["catName"]) and !empty($_POST["catColor"]) and !empty($_POST["catTail"])){
+		$catName = test_input($_POST["catName"]);
+		$catColor = test_input($_POST["catColor"]);
+		$catTail = test_input($_POST["catTail"]);
+		$combined = addcat($catName, $catColor, $catTail);
+	} else {
+		$combined = addcat(null, null, null);
+		$notice="Palun sisestage kõik andmed!";
+	 }
+	}
 	?>
 <!DOCTYPE html>
 <html>
@@ -44,5 +43,6 @@
 	<input type="submit" name="submitCatData" value="Saada andmed">
 	<hr>
 	</form>
+	<p><?php echo $notice; ?></p>
 </body>
 </html>	

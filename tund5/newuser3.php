@@ -26,13 +26,13 @@
   var_dump($_POST);
   //!empty =ei ole tühi
   if(isset($_POST["submitUserData"])){ //kas on nuppu vajutatud
-  if (isset($_POST["firstName"]) and !empty($_POST["firsName"])){
+  if (isset($_POST["firstname"]) and !empty($_POST["firstname"])){
 	$firstName = test_input($_POST["firstname"]);
   } else {
 	$firstNameError= "Palun sisesta oma eesnimi!";
   }
-  if (isset($_POST["lastName"])){
-	$lastName = test_input($_POST["lastName"]);
+  if (isset($_POST["lastname"])){
+	$lastName = test_input($_POST["lastname"]);
   }
   
   if(isset($_POST["gender"]) and !empty($_POST["gender"])){
@@ -48,9 +48,10 @@
   //checkdate ootab kolme täosarvu: kuu, päev , aasta
   if (checkdate(intval($_POST["birthMonth"]), intval($_POST["birthDay"]), intval($_POST["birthYear"]))){
 	 //paneme kolm arvu kuupäevaks kokku
-	 $birthDate= date_create($_POST["birthMonth"] ."/" .$_POST["birthDay"]."/" .$_POST["birthYear"]);
+	 $birthDate= date_create($_POST["birthMonth"] ."/" .$_POST["birthDay"] ."/" .$_POST["birthYear"]);
 	 //vorrmindame andmebaasi jaoks sobivaks (Y-m-d)
 	 $birthDate= date_format($birthDate, "Y-m-d");
+	 echo $birthDate;
   } else {
 	  $birthDateError= "Kahjuks on sisestatud võimatu kuupäev!"; 
   } echo $birthDateError;

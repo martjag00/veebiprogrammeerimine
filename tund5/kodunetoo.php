@@ -23,6 +23,7 @@
   $genderError = "";
   $emailError = "";
   $passwordError = "";
+  $confirmPasswordError="";
   
   
   //püüan POST andmed kinni
@@ -57,6 +58,18 @@
 	$genderError = "Palun märgi oma sugu!";  
   }//soo kontroll lõppeb
   
+   if(empty($_POST["email"])){
+	  $emailError= "Palun sisestage e-mail!";
+  }
+  if(empty($_POST["password"]) and strlen($_POST["password"]) < 8){
+	  $passwordError= "Palun sisestage parool uuesti (minimaalselt 8 tähemärki)!";
+  }
+  if(!empty($_POST["confirmpassword"]	) and ($_POST["confirmpassword"]) == ($_POST["password"])){
+	$notice= "ok";
+  } else {
+	 $confirmPasswordError= "Palun sisestage mõlemad salasõnad uuesti.";
+  }
+  
   //tuleks kontrollida kuupäeva osi
   
   //kontrollime, kas saab legaalse kuupäeva ja paneme osad kokku
@@ -74,8 +87,7 @@
 	}
   }//kuupäeva legaalsuse kontroll lõppeb
   
-  //parooli pikkuse kontroll
-  strlen($_POST["password"]) >= 8;
+ 
   // kõik kontrollid tehtud
   if(empty($firstNameError) and empty ($lastNameError) and empty($birthMonthError) and empty($birthYearError) and empty ($birthDayError) and empty ($birthDateError) and empty($genderError) and empty($emailError) and empty($passwordError)){
 	  $notice = signup($firstName, $lastName, $birthDate, $gender, $_POST["email"], $_POST["password"]);
@@ -98,7 +110,7 @@
     <label>Eesnimi: </label><br>
     <input type="text" name="firstname" value="<?php echo $firstName; ?>"><span><?php echo $firstNameError; ?></span><br>
     <label>Perekonnanimi: </label><br>
-    <input type="text" name="lastname"></span><br>
+    <input type="text" name="lastname" value="<?php echo $lastName; ?>"><span><?php echo $lastNameError; ?></span><br>
 	<label>Sünnipäev: </label>
 	  <?php
 	    echo '<select name="birthDay">' ."\n";
@@ -138,7 +150,7 @@
 			echo ">" .$i ."</option> \n";
 		}
 		echo "</select> \n";
-	  ?>
+		?>
 	  <br>
 	  <label>Sugu:</label><br>
 	  <input name="gender" type="radio" value="2" <?php if($gender == 2){echo "checked";}?>><label>Naine</label>
@@ -149,10 +161,11 @@
 	  <br>
 	  
 	  <label>E-postiaadress (kasutajatunnuseks): </label><br>
-      <input type="email" name="email"><br>
+      <input type="email" name="email" value="<?php echo $email; ?>"><span><?php echo $emailError; ?></span><br>
       <label>Salasõna (min 8 märki): </label><br>
-      <input type="password" name="password"><br>
-	  
+      <input type="password" name="password" value="<?php echo $password; ?>"><span><?php echo $passwordError; ?></span><br>
+	  <label>Korrake salasõna: </label><br>
+	  <input type="passowrd" name="confirmpassword" value="<?php echo $confirmPassword; ?>"><span><?php echo $confirmPasswordError; ?></span><br>
 	  <input type="submit" name="submitUserData" value="Loo kasutaja">
   </form>
   <hr>
