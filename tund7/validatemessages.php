@@ -11,7 +11,7 @@
 	  header("Location: index_2.php");
 	  exit();
   }
-  $msglist= readallunvalidatedmessages();
+  $msglist= readallvalidatedmessagesbyuser();
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,7 +28,7 @@
 	<li><a href="main.php">Tagasi</a> pealehele!</li>
   </ul>
   <hr>
-  
+  <h2>Valideeritud sõnumid valideerijate kaupa</h2>
   <?php echo $msglist; ?>
 
 </body>

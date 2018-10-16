@@ -14,8 +14,12 @@
 	  exit();
   }
   
-  if(isset($_GET["editId"])){
-	 $msg=readmsgforvalidation($_GET["editId"]);
+  if(isset($_GET["id"])){
+	 $msg=readmsgforvalidation($_GET["id"]);
+  }
+  
+  if(isset($_POST["submitValidation"])){
+	validatemsg(intval($_POST["id"]), intval($_POST["validation"]));
   }
 ?>
 <!DOCTYPE html>

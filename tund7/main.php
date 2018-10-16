@@ -31,6 +31,7 @@
 	<ul>
 	  <li><a href="?logout=1">Logi välja!</a></li>
 	  <li><a href="validatemsg.php">Valideeri anonüümsed sõnumid</a></li>
+	  <li><a href="users.php">Nimekiri kõigist kasutajatest</a></li>
 	</ul>
 	
   </body>

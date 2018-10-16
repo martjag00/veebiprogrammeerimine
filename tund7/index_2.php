@@ -47,6 +47,7 @@
 	<hr>
 	<p><a href="addmsg.php">Lisa sõnum</a>!</p>
 	<hr>
+	<h2>Anonüümsed sõnumid teistelt kasutajatelt</h2>
 	<div>
 	  <?php echo allvalidmessages(); ?>
 	</div>
