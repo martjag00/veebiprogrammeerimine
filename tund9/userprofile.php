@@ -3,20 +3,18 @@
 	
 	$notice=null;
 	
-	// If not signed in
 	if(!isset($_SESSION["userId"])){
 		header("Location: index_2.php");
 		exit();
 	}
 	//Get profile details
 	$profiledetails = getuserprofile($_SESSION["userId"]);
-	//print_r($profiledetails);
+	
 	
 	// Use profile values if they exist
 	if ($profiledetails != null){
 		if ($profiledetails[0] != null){
 			$descriptiontext = $profiledetails[0];
-			// Session variable not needed
 		}
 		
 		if ($profiledetails[1] != null){
@@ -58,6 +56,7 @@
 			$backgroundcolor = "#ffffff";
 		}	
 	}
+	$description= "Palun lisage siia enda iseloomustus. :)";
 ?>
 <!DOCTYPE html>
 <html>
@@ -73,7 +72,8 @@
 	
 	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 	<label>Lisage lühitutvustus enda kohta: </label>
-	<br> <textarea rows="10" cols="80" name="description"><?php echo $mydescription; ?></textarea> </br>
+	<br> <textarea rows="10" cols="80" name="description"><?php echo $description; ?></textarea> </br>
+	<label>Valitud taustavärv
 	
 	
 	<input type="submit" name="submitDescription" value="Salvesta lühitutvustus">

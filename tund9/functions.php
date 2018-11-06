@@ -10,6 +10,23 @@
  //sql käsk andmete uuendamiseks
  //UPDATE vpamsg SET acceptedby=?, accepted=?, accepttime=now() WHERE id=?
  
+ function addPhotoData($filename, $alttext, $privacy){
+	 $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+	 $stmt = $mysqli->prepare("INSERT INTO vpphotos (userid, filename, alttext, privacy) VALUES (?,?,?,?)");
+	 echo $mysqli->error;
+	 if(empty($privacy) or $privacy >3 or $privacy <1){
+		 $privacy=3;
+		 }
+	 $stmt->bind_param("issi", $_SESSION["userId"], $filename, $alttext, $privacy);
+	 if($stmt->execute()){
+		 echo "Andmebaasiga on kõik korras!";
+	 } else {
+		 echo "Andmebaasiga ono midagi viltu!" .$stmt->error;
+	 }
+	 $stmt->close();
+	 $mysqli->close();
+ }
+ 
  //valitud sõnumi lugemine valideerimiseks
  function getuserprofile($userId){
 	$userprofile = array();
