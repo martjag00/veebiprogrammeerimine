@@ -17,6 +17,13 @@
 		imagedestroy($this->myImage);
 	 }
 	 
+	 public function readExif(){
+		 if($this->imageFileType == "jpg" or $this->imageFileType == "jpeg"){
+			 @$exif = exif_read_data($this->tempName, "ANY_TAG", 0, true);
+			 //var_dump($exif);
+		 }
+	 }
+	 
 	 private function imageFromFile(){
 		 //loome vastavalt faili tüübile pildi objekti
 		if($this->imageFileType == "jpg" or $this->imageFileType == "jpeg"){
@@ -67,6 +74,34 @@
 		$textToImage= "Veebiprogrammeerimine";
 		$textColor= imagecolorallocatealpha($this->myImage, 255, 255, 255, 60);
 		imagettftext($this->myImage, 20, 0, 10, 30, $textColor, "../vp_picfiles/ARIALBD.TTF", $textToImage);
+	}
+	
+	public function createThumbnail ($directory, $size){
+		$imageWidth=imagesx($this->myTempImage);
+		$imageHeight=imagesy($this->myTempImage);
+		if($imageWidth > $imageHeight){
+			$cutSize= $imageHeight;
+			$cutX = round(($imageWidth - $cutSize) / 2);
+			$cutY= 0;
+		} else {
+			$cutsize= $imageWidth;
+			$cutX = 0;
+			$cutY = round(($imageHeight - $cutSize) / 2);
+		}
+		$myThumbnail = imagecreatetruecolor($size, $size);
+		
+		imagecopyresampled($myThumbnail, $this->myTempImage, 0 , 0, $cutX, $cutY, $size, $size, $cutsize, $cutsize);
+		
+		if($this->imageFileType == "jpg" or $this->imageFileType == "jpeg"){
+		imagejpeg($this->myThumbnail, $target_file, 95)
+		}
+	if($this->imageFileType == "png"){
+		imagejpeg($this->myThumbnail, $target_file, 6)
+	}
+	if($this->imageFileType == "gif"){
+		imagejpeg($this->myThumbnail, $target_file)
+	}
+	return $notice;
 	}
 	
 	public function saveFile($target_file){

@@ -16,28 +16,33 @@
   
   require("classes/Photoupload.class.php");
   
-  /* require("classes/Test.class.php");
-  $myNumber = new Test(7);
-  echo "Avalik arv on: " .$myNumber->publicNumber;
-  //echo "Salajane arv on: " .$myNumber->secretNumber;
-  $myNumber->tellThings();
-  $mySNumber= new Test(9);
-   echo "teine Avalik arv on: " .$mySNumber->publicNumber;
-  unset($myNumber); */
-  //piltide üleslaadimise osa
-	$target_dir = "../vp_pic_uploads/";
-	
+  
+	//$target_dir = "../vp_pic_uploads/";
+	$notice= "";
+	$target_dir= $picDir; //config failist
+	$thumb_dir = $thumbDir;
+	$thumbSize=100;
+	$target_file= "";
 	$uploadOk = 1;
+	
+	$imageNamePrefix = "vp_";
+    $textToImage = "Veebiprogrammeerimine";
+    $pathToWatermark = "../vp_picfiles/vp_logo_w100_overlay.png";
 	
 	// Check if image file is a actual image or fake image
 	if(isset($_POST["submitImage"])) {
 		if(!empty($_FILES["fileToUpload"]["name"])){
 		
-		$imageFileType = strtolower(pathinfo(basename($_FILES["fileToUpload"]["name"]),PATHINFO_EXTENSION));
-		$timeStamp= microtime(1) * 10000;
+	  $myPhoto = new Photoupload($_FILES["fileToUpload"]);
 		
-		$target_file_name= "vp_" .$timeStamp ."." .$imageFileType;
+		$myPhoto->readExif();
+		if(!empty($myPhoto->photoDate)){
+			$textToImage = $myPhoto->photoDate;
+		} else {
+			$textToImage = "Pildistamise aeg teadmata";
+		}
 		
+		$myPhoto->makeFileName($imageNamePrefix);
 		$target_file = $target_dir . $target_file_name;
 		$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
 		if($check !== false) {
@@ -65,29 +70,33 @@
 	}
 	// Check if $uploadOk is set to 0 by an error
 	if ($uploadOk == 0) {
-		echo "Kahjuks faili üles ei laeta!";
+		$notice= "Vabandame, faili ülese ei laetud! Vead on: "
+		.$myPhoto->errorsForUpload;
 	// if everything is ok, try to upload file
 	} else {
+		$myphoto->readExif();
+		if(!empty($myPhoto->photoDate)){
+			$textToImage= $myPhoto->photoDate;
+		} else{
+			$textToImage= "Pildistamise aega ei saa teada";
+		}
 		
-		$myPhoto= new Photoupload($_FILES["fileToUpload"]["tmp_name"], $imageFileType);
 		$myPhoto->changePhotoSize(600, 400);
-		$myPhoto->addWatermark();
-		$myPhoto->addText();
+		$myPhoto->addWatermark($pathToWatermark);
+		$myPhoto->addText($textToImage);
 		$myPhoto->saveFile($target_file);
 		$savesuccess= $myPhoto->saveFile($target_file);
-		unset($myPhoto);
 		
-		if($savesuccess == 1){			
-			  addPhotoData($target_file_name, $_POST["altText"], $_POST["privacy"]);
+		if($savesuccess == 1){	
+			$myPhoto->createThumbnail($thumbDir; $thumbSize);
+			$notice= "foto laeti üles!";
+			$notice .= addPhotoData($target_file_name, $_POST["altText"], $_POST["privacy"]);
 			} else {
-			  echo "Vabandage, faili ülelaadimisel tekkis tehniline viga!";
+			  notice .= "Vabandage, faili ülelaadimisel tekkis tehniline viga!";
 			}
-		/* if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-			echo "Fail ". basename( $_FILES["fileToUpload"]["name"]). " on üles laaditud.";
-		} else {
-			echo "Vabandage, faili üleslaadimisel tekkis viga.";
-		} */
-	}
+		
+		}
+		unset($myPhoto);
 	}	
 	}//kontroll
 	

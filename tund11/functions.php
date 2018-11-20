@@ -10,6 +10,46 @@
  //sql käsk andmete uuendamiseks
  //UPDATE vpamsg SET acceptedby=?, accepted=?, accepttime=now() WHERE id=?
  
+ function allPublicPictureThumbsPage ($privacy){
+	$html= "";
+	 $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+	 $stmt = $mysqli->prepare("SELECT filename, alttext FROM vpphotos WHERE privacy<=? AND deleted IS NULL LIMIT 5");//kui 2 väärtust
+	 echo $mysqli->error;
+	 $stmt->bind_param("i", $privacy);
+	 $stmt->bind_result($filenameFromDb, $alttextFromDb);
+	 $stmt->execute();
+	 while($stmt->fetch()){
+		//<img src="kataloog/pildifail" alt="alttext">
+	 $html .= '<img src="' .$GLOBALS["thumbDir"] .$filenameFromDb .'" alt="' -$alttextFromDb .'">' ."\n";
+	 }
+	 if(empty($html)){
+	 $html="<p>Vabandame, pole ühtegi avaliku pilti.</p> \n";
+	 }
+	 
+	 $stmt->close();
+	 $mysqli->close();
+	 return $html; 
+ }
+ function lastPicture($privacy){
+	 $html= "";
+	 $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+	 $stmt = $mysqli->prepare("SELECT filename, alttext FROM vpphotos WHERE id=(SELECT MAX(id) FROM vpphotos WHERE privacy=? AND deleted IS NULL)");
+	 echo $mysqli->error;
+	 $stmt->bind_param("i", $privacy);
+	 $stmt->bind_result($filenameFromDb, $alttextFromDb);
+	 $stmt->execute();
+	 if($stmt->fetch()){
+		//<img src="kataloog/pildifail" alt="alttext">
+	 $html = '<img src="' .$GLOBALS["picDir"] .$filenameFromDb .'" alt="' -$alttextFromDb .'">' ."\n";
+	 } else {
+	 $html= "<p>Vabandame, avalike pilte pole.</p> \n";
+	 }
+	 
+	 $stmt->close();
+	 $mysqli->close();
+	 return $html;
+ }
+ 
  function addPhotoData($filename, $alttext, $privacy){
 	 $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 	 $stmt = $mysqli->prepare("INSERT INTO vpphotos (userid, filename, alttext, privacy) VALUES (?,?,?,?)");
