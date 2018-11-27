@@ -86,6 +86,7 @@
   
   //lehe päise laadimine
   $pageTitle= "Pealeht";
+    $scripts = '<script type="text/javascript" src="javascript/checkFileSize.js" defer></script>' ."\n";
   require("header.php");
 ?>
 
@@ -108,7 +109,7 @@
 	<input type="radio" name="privacy" value="2"><label>Sisseloginud kasutajatele</label>
     <input type="radio" name="privacy" value="3" checked><label>Privaatne</label>
 	<br>
-	<input type="submit" value="Lae pilt üles" name="submitPic">
+	<input id="submitPic" type="submit" value="Lae pilt üles" name="submitPic"><span></span>
 </form>
 	</ul>
 	
